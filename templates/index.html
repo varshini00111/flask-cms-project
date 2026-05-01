@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Article CMS</title>
+</head>
+<body>
+    <h1>Article CMS</h1>
+
+    <form method="POST" action="/create">
+        <input name="title" placeholder="Title"><br>
+        <input name="author" placeholder="Author"><br>
+        <textarea name="body" placeholder="Body"></textarea><br>
+        <button type="submit">Create</button>
+    </form>
+
+    <hr>
+
+    {% for article in articles %}
+        <h2>{{ article.title }}</h2>
+        <p><b>{{ article.author }}</b></p>
+        <p>{{ article.body }}</p>
+        <hr>
+    {% endfor %}
+
+</body>
+</html>
