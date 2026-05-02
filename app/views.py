@@ -1,15 +1,3 @@
-import os
-from flask import Blueprint, render_template, request, redirect
-import logging
-
-main = Blueprint('main', __name__)
-
-articles = []
-
-@main.route('/')
-def index():
-    return render_template('index.html', articles=articles)
-
 @main.route('/create', methods=['POST'])
 def create():
     title = request.form['title']
@@ -20,12 +8,12 @@ def create():
     image_url = None
 
     if image and image.filename != "":
-        # Save locally (simple approach for project)
         filepath = os.path.join("app/static", image.filename)
-        os.makedirs("app/static", exist_ok=True)
+
+        os.makedirs("app/static", exist_ok=True)  # ensures folder exists
         image.save(filepath)
 
-        image_url = "/" + filepath
+        image_url = "/static/" + image.filename
 
     articles.append({
         'title': title,
@@ -33,7 +21,5 @@ def create():
         'body': body,
         'image_url': image_url
     })
-
-    logging.info("admin logged in successfully")
 
     return redirect('/')
