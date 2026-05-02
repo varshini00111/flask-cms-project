@@ -1,26 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Article CMS</title>
-</head>
-<body>
-    <h1>Article CMS</h1>
+<form action="/create" method="POST" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Title" required><br>
+    <input type="text" name="author" placeholder="Author" required><br>
+    <textarea name="body" placeholder="Body" required></textarea><br>
 
-    <form method="POST" action="/create">
-        <input name="title" placeholder="Title"><br>
-        <input name="author" placeholder="Author"><br>
-        <textarea name="body" placeholder="Body"></textarea><br>
-        <button type="submit">Create</button>
-    </form>
+    <!-- NEW: Image Upload -->
+    <input type="file" name="image" accept=".png,.jpg,.jpeg"><br>
+
+    <button type="submit">Create</button>
+</form>
+
+<hr>
+
+{% for article in articles %}
+    <h2>{{ article.title }}</h2>
+    <h4>{{ article.author }}</h4>
+    <p>{{ article.body }}</p>
+
+    {% if article.image_url %}
+        <img src="{{ article.image_url }}" width="200">
+    {% endif %}
 
     <hr>
-
-    {% for article in articles %}
-        <h2>{{ article.title }}</h2>
-        <p><b>{{ article.author }}</b></p>
-        <p>{{ article.body }}</p>
-        <hr>
-    {% endfor %}
-
-</body>
-</html>
+{% endfor %}
