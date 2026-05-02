@@ -1,13 +1,9 @@
 from flask import Flask
-import logging
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
 
-    # Logging setup
-    logging.basicConfig(level=logging.INFO)
-
-    from .views import main
+    from app.views import main
     app.register_blueprint(main)
 
     return app
