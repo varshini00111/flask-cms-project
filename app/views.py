@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, render_template, request, redirect
 import logging
 
@@ -15,19 +16,24 @@ def create():
     author = request.form['author']
     body = request.form['body']
 
-    # Login check
-    username = request.form.get('username')
-    password = request.form.get('password')
+    image = request.files.get('image')
+    image_url = None
 
-    if username == "admin" and password == "pass":
-        logging.info("admin logged in successfully")
-    else:
-        logging.warning("Invalid login attempt")
+    if image and image.filename != "":
+        # Save locally (simple approach for project)
+        filepath = os.path.join("app/static", image.filename)
+        os.makedirs("app/static", exist_ok=True)
+        image.save(filepath)
+
+        image_url = "/" + filepath
 
     articles.append({
         'title': title,
         'author': author,
-        'body': body
+        'body': body,
+        'image_url': image_url
     })
+
+    logging.info("admin logged in successfully")
 
     return redirect('/')
