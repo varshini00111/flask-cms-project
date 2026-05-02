@@ -1,3 +1,14 @@
+from flask import Blueprint, render_template, request, redirect
+import os
+
+main = Blueprint('main', __name__)
+
+articles = []
+
+@main.route('/')
+def index():
+    return render_template('index.html', articles=articles)
+
 @main.route('/create', methods=['POST'])
 def create():
     title = request.form['title']
@@ -8,9 +19,9 @@ def create():
     image_url = None
 
     if image and image.filename != "":
-        filepath = os.path.join("app/static", image.filename)
+        os.makedirs("app/static", exist_ok=True)
 
-        os.makedirs("app/static", exist_ok=True)  # ensures folder exists
+        filepath = os.path.join("app/static", image.filename)
         image.save(filepath)
 
         image_url = "/static/" + image.filename
